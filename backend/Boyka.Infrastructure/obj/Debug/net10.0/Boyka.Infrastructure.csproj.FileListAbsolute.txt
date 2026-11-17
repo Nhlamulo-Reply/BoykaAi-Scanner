@@ -1,0 +1,17 @@
+C:\Users\OEM\Documents\BoykaAI\backend\Boyka.Infrastructure\bin\Debug\net10.0\Boyka.Infrastructure.deps.json
+C:\Users\OEM\Documents\BoykaAI\backend\Boyka.Infrastructure\bin\Debug\net10.0\Boyka.Infrastructure.dll
+C:\Users\OEM\Documents\BoykaAI\backend\Boyka.Infrastructure\bin\Debug\net10.0\Boyka.Infrastructure.pdb
+C:\Users\OEM\Documents\BoykaAI\backend\Boyka.Infrastructure\bin\Debug\net10.0\Boyka.Application.dll
+C:\Users\OEM\Documents\BoykaAI\backend\Boyka.Infrastructure\bin\Debug\net10.0\Boyka.Domain.dll
+C:\Users\OEM\Documents\BoykaAI\backend\Boyka.Infrastructure\bin\Debug\net10.0\Boyka.Domain.pdb
+C:\Users\OEM\Documents\BoykaAI\backend\Boyka.Infrastructure\bin\Debug\net10.0\Boyka.Application.pdb
+C:\Users\OEM\Documents\BoykaAI\backend\Boyka.Infrastructure\obj\Debug\net10.0\Boyka.Infrastructure.csproj.AssemblyReference.cache
+C:\Users\OEM\Documents\BoykaAI\backend\Boyka.Infrastructure\obj\Debug\net10.0\Boyka.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\OEM\Documents\BoykaAI\backend\Boyka.Infrastructure\obj\Debug\net10.0\Boyka.Infrastructure.AssemblyInfoInputs.cache
+C:\Users\OEM\Documents\BoykaAI\backend\Boyka.Infrastructure\obj\Debug\net10.0\Boyka.Infrastructure.AssemblyInfo.cs
+C:\Users\OEM\Documents\BoykaAI\backend\Boyka.Infrastructure\obj\Debug\net10.0\Boyka.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\OEM\Documents\BoykaAI\backend\Boyka.Infrastructure\obj\Debug\net10.0\Boyka.In.64327BAD.Up2Date
+C:\Users\OEM\Documents\BoykaAI\backend\Boyka.Infrastructure\obj\Debug\net10.0\Boyka.Infrastructure.dll
+C:\Users\OEM\Documents\BoykaAI\backend\Boyka.Infrastructure\obj\Debug\net10.0\refint\Boyka.Infrastructure.dll
+C:\Users\OEM\Documents\BoykaAI\backend\Boyka.Infrastructure\obj\Debug\net10.0\Boyka.Infrastructure.pdb
+C:\Users\OEM\Documents\BoykaAI\backend\Boyka.Infrastructure\obj\Debug\net10.0\ref\Boyka.Infrastructure.dll

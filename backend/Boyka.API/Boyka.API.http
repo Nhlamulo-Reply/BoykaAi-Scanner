@@ -1,0 +1,6 @@
+@Boyka.API_HostAddress = http://localhost:5047
+
+GET {{Boyka.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
