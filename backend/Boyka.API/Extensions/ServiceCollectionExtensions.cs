@@ -1,6 +1,7 @@
 using Boyka.Application.Interfaces;
 using Boyka.Application.Services;
 using Boyka.Infrastructure.Data;
+using Boyka.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace Boyka.API.Extensions;
@@ -18,6 +19,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ITradeSignalService, TradeSignalService>();
         services.AddScoped<ITradeOrderService, TradeOrderService>();
         services.AddScoped<IRiskProfileService, RiskProfileService>();
+        services.AddScoped<IMockTradeExecutionService, MockTradeExecutionService>();
 
         return services;
     }

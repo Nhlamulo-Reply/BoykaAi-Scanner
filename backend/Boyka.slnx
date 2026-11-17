@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="Boyka.API/Boyka.API.csproj" />
+  <Project Path="Boyka.Application/Boyka.Application.csproj" />
+  <Project Path="Boyka.Domain/Boyka.Domain.csproj" />
+  <Project Path="Boyka.Infrastructure/Boyka.Infrastructure.csproj" />
+  <Project Path="Boyka.Tests/Boyka.Tests.csproj" />
+</Solution>
