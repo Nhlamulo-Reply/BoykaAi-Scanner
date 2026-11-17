@@ -15,6 +15,7 @@ public class MockTradeExecutionService : IMockTradeExecutionService
     {
         var execution = new TradeExecution
         {
+            Id = Guid.NewGuid(),
             TradeOrderId = order.Id,
             MT5TicketNumber = null,
             ExecutionPrice = order.EntryPrice,
