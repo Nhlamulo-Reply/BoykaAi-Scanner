@@ -15,6 +15,7 @@ public class TradeOrder
     public decimal TakeProfit { get; set; }
     public TradeOrderStatus Status { get; set; } = TradeOrderStatus.Pending;
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public Guid? MT5CommandId { get; set; }
 
     public TradingAccount? TradingAccount { get; set; }
     public TradeSignal? TradeSignal { get; set; }

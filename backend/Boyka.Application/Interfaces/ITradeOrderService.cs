@@ -8,4 +8,5 @@ public interface ITradeOrderService
     Task<TradeOrderResponse?> GetByIdAsync(Guid id);
     Task<IEnumerable<TradeExecutionResponse>> GetExecutionsAsync(Guid orderId);
     Task<TradeOrderResponse> ExecuteTradeAsync(ExecuteTradeRequest request);
+    Task<TradeOrderResponse> QueueForMT5Async(ExecuteTradeRequest request);
 }

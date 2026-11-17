@@ -1,3 +1,4 @@
+using Boyka.API.Middleware;
 using Boyka.Application.Interfaces;
 using Boyka.Application.Services;
 using Boyka.Infrastructure.Data;
@@ -20,6 +21,9 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ITradeOrderService, TradeOrderService>();
         services.AddScoped<IRiskProfileService, RiskProfileService>();
         services.AddScoped<IMockTradeExecutionService, MockTradeExecutionService>();
+        services.AddScoped<IEaRegistrationService, EaRegistrationService>();
+        services.AddScoped<IMT5CommandService, MT5CommandService>();
+        services.AddScoped<EaApiKeyMiddleware>();
 
         return services;
     }

@@ -13,6 +13,11 @@ public class TradingAccount
     public bool IsActive { get; set; } = true;
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
+    public bool AutoTradingEnabled { get; set; } = false;
+
     public ICollection<TradeOrder> TradeOrders { get; set; } = new HashSet<TradeOrder>();
     public ICollection<RiskProfile> RiskProfiles { get; set; } = new HashSet<RiskProfile>();
+    public ICollection<EaRegistration> EaRegistrations { get; set; } = new HashSet<EaRegistration>();
+    public ICollection<SymbolMapping> SymbolMappings { get; set; } = new HashSet<SymbolMapping>();
+    public ICollection<MT5Command> MT5Commands { get; set; } = new HashSet<MT5Command>();
 }

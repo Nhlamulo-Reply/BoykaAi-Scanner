@@ -34,11 +34,11 @@
             "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {
-              "c:\\Users\\OEM\\Documents\\BoykaAI\\backend\\Boyka.Application\\Boyka.Application.csproj": {
-                "projectPath": "c:\\Users\\OEM\\Documents\\BoykaAI\\backend\\Boyka.Application\\Boyka.Application.csproj"
+              "C:\\Users\\OEM\\Documents\\BoykaAI\\backend\\Boyka.Application\\Boyka.Application.csproj": {
+                "projectPath": "C:\\Users\\OEM\\Documents\\BoykaAI\\backend\\Boyka.Application\\Boyka.Application.csproj"
               },
-              "c:\\Users\\OEM\\Documents\\BoykaAI\\backend\\Boyka.Infrastructure\\Boyka.Infrastructure.csproj": {
-                "projectPath": "c:\\Users\\OEM\\Documents\\BoykaAI\\backend\\Boyka.Infrastructure\\Boyka.Infrastructure.csproj"
+              "C:\\Users\\OEM\\Documents\\BoykaAI\\backend\\Boyka.Infrastructure\\Boyka.Infrastructure.csproj": {
+                "projectPath": "C:\\Users\\OEM\\Documents\\BoykaAI\\backend\\Boyka.Infrastructure\\Boyka.Infrastructure.csproj"
               }
             }
           }
@@ -512,14 +512,14 @@
         }
       }
     },
-    "c:\\Users\\OEM\\Documents\\BoykaAI\\backend\\Boyka.Application\\Boyka.Application.csproj": {
+    "C:\\Users\\OEM\\Documents\\BoykaAI\\backend\\Boyka.Application\\Boyka.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\OEM\\Documents\\BoykaAI\\backend\\Boyka.Application\\Boyka.Application.csproj",
+        "projectUniqueName": "C:\\Users\\OEM\\Documents\\BoykaAI\\backend\\Boyka.Application\\Boyka.Application.csproj",
         "projectName": "Boyka.Application",
-        "projectPath": "c:\\Users\\OEM\\Documents\\BoykaAI\\backend\\Boyka.Application\\Boyka.Application.csproj",
+        "projectPath": "C:\\Users\\OEM\\Documents\\BoykaAI\\backend\\Boyka.Application\\Boyka.Application.csproj",
         "packagesPath": "C:\\Users\\OEM\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\OEM\\Documents\\BoykaAI\\backend\\Boyka.Application\\obj\\",
+        "outputPath": "C:\\Users\\OEM\\Documents\\BoykaAI\\backend\\Boyka.Application\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -566,6 +566,14 @@
           "targetAlias": "net10.0",
           "dependencies": {
             "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[10.0.0, )"
+            },
+            "Microsoft.Extensions.Configuration.Abstractions": {
+              "target": "Package",
+              "version": "[10.0.0, )"
+            },
+            "Microsoft.Extensions.Configuration.Binder": {
               "target": "Package",
               "version": "[10.0.0, )"
             }
@@ -1206,14 +1214,14 @@
         }
       }
     },
-    "c:\\Users\\OEM\\Documents\\BoykaAI\\backend\\Boyka.Infrastructure\\Boyka.Infrastructure.csproj": {
+    "C:\\Users\\OEM\\Documents\\BoykaAI\\backend\\Boyka.Infrastructure\\Boyka.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\OEM\\Documents\\BoykaAI\\backend\\Boyka.Infrastructure\\Boyka.Infrastructure.csproj",
+        "projectUniqueName": "C:\\Users\\OEM\\Documents\\BoykaAI\\backend\\Boyka.Infrastructure\\Boyka.Infrastructure.csproj",
         "projectName": "Boyka.Infrastructure",
-        "projectPath": "c:\\Users\\OEM\\Documents\\BoykaAI\\backend\\Boyka.Infrastructure\\Boyka.Infrastructure.csproj",
+        "projectPath": "C:\\Users\\OEM\\Documents\\BoykaAI\\backend\\Boyka.Infrastructure\\Boyka.Infrastructure.csproj",
         "packagesPath": "C:\\Users\\OEM\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\OEM\\Documents\\BoykaAI\\backend\\Boyka.Infrastructure\\obj\\",
+        "outputPath": "C:\\Users\\OEM\\Documents\\BoykaAI\\backend\\Boyka.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -1236,8 +1244,8 @@
             "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {
-              "c:\\Users\\OEM\\Documents\\BoykaAI\\backend\\Boyka.Application\\Boyka.Application.csproj": {
-                "projectPath": "c:\\Users\\OEM\\Documents\\BoykaAI\\backend\\Boyka.Application\\Boyka.Application.csproj"
+              "C:\\Users\\OEM\\Documents\\BoykaAI\\backend\\Boyka.Application\\Boyka.Application.csproj": {
+                "projectPath": "C:\\Users\\OEM\\Documents\\BoykaAI\\backend\\Boyka.Application\\Boyka.Application.csproj"
               },
               "C:\\Users\\OEM\\Documents\\BoykaAI\\backend\\Boyka.Domain\\Boyka.Domain.csproj": {
                 "projectPath": "C:\\Users\\OEM\\Documents\\BoykaAI\\backend\\Boyka.Domain\\Boyka.Domain.csproj"
@@ -1262,7 +1270,15 @@
           "framework": "net10.0",
           "targetAlias": "net10.0",
           "dependencies": {
+            "Microsoft.EntityFrameworkCore.Design": {
+              "target": "Package",
+              "version": "[10.0.0, )"
+            },
             "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[10.0.0, )"
+            },
+            "Microsoft.Extensions.Configuration.Json": {
               "target": "Package",
               "version": "[10.0.0, )"
             }

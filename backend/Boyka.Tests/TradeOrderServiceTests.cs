@@ -1,3 +1,4 @@
+using Boyka.Application.DTOs.MT5;
 using Boyka.Application.Interfaces;
 using Boyka.Application.Services;
 using Boyka.Domain.Entities;
@@ -29,6 +30,24 @@ file class FakeExecutionService : IMockTradeExecutionService
     }
 }
 
+/// <summary>
+/// Fake MT5 command service that does nothing (not used in existing Execute tests).
+/// </summary>
+file class FakeMT5CommandService : IMT5CommandService
+{
+    public Task<MT5Command> QueueCommandAsync(TradeOrder order, string brokerSymbol)
+        => Task.FromResult(new MT5Command { TradeOrderId = order.Id, TradingAccountId = order.TradingAccountId });
+
+    public Task<MT5CommandResponse?> GetNextPendingCommandAsync(Guid tradingAccountId)
+        => Task.FromResult<MT5CommandResponse?>(null);
+
+    public Task AcknowledgeCommandAsync(Guid commandId, Guid tradingAccountId, MT5AcknowledgeRequest request)
+        => Task.CompletedTask;
+
+    public Task ExpireStaleCommandsAsync()
+        => Task.CompletedTask;
+}
+
 public class TradeOrderServiceTests
 {
     private static BoykaDbContext CreateContext()
@@ -40,7 +59,7 @@ public class TradeOrderServiceTests
     }
 
     private static TradeOrderService BuildService(BoykaDbContext context) =>
-        new(context, new FakeExecutionService());
+        new(context, new FakeExecutionService(), new FakeMT5CommandService());
 
     private static Boyka.Application.DTOs.Trades.ExecuteTradeRequest BuildValidBuyRequest(Guid accountId) => new()
     {

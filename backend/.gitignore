@@ -1,0 +1,59 @@
+
+# .NET build outputs
+[Bb]in/
+[Oo]bj/
+[Aa]rtifacts/
+[Dd]ebug/
+[Rr]elease/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Visual Studio Code
+.vscode/
+
+# JetBrains
+.idea/
+
+# Logs
+*.log
+logs/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+secrets.json
+secrets.*.json
+appsettings.Development.json
+appsettings.Local.json
+
+# Certificates and private keys
+*.pfx
+*.p12
+*.key
+*.pem
+*.cer
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Node
+node_modules/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Database files
+*.mdf
+*.ldf
+*.db
+*.sqlite

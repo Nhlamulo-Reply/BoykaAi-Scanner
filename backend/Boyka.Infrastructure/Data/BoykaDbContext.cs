@@ -15,6 +15,9 @@ public class BoykaDbContext : DbContext, IBoykaDbContext
     public DbSet<TradeOrder> TradeOrders { get; set; } = null!;
     public DbSet<TradeExecution> TradeExecutions { get; set; } = null!;
     public DbSet<RiskProfile> RiskProfiles { get; set; } = null!;
+    public DbSet<MT5Command> MT5Commands { get; set; } = null!;
+    public DbSet<EaRegistration> EaRegistrations { get; set; } = null!;
+    public DbSet<SymbolMapping> SymbolMappings { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -30,6 +33,7 @@ public class BoykaDbContext : DbContext, IBoykaDbContext
             entity.Property(e => e.ServerName).IsRequired().HasMaxLength(100);
             entity.Property(e => e.AccountCurrency).IsRequired().HasMaxLength(10);
             entity.Property(e => e.ExecutionMode).IsRequired().HasMaxLength(50);
+            entity.Property(e => e.AutoTradingEnabled).HasDefaultValue(false);
         });
 
         // TradeSignal
@@ -51,6 +55,7 @@ public class BoykaDbContext : DbContext, IBoykaDbContext
             entity.Property(e => e.EntryPrice).HasPrecision(18, 8);
             entity.Property(e => e.StopLoss).HasPrecision(18, 8);
             entity.Property(e => e.TakeProfit).HasPrecision(18, 8);
+            entity.Property(e => e.MT5CommandId).IsRequired(false);
             entity.HasOne(e => e.TradingAccount)
                   .WithMany(a => a.TradeOrders)
                   .HasForeignKey(e => e.TradingAccountId)
@@ -84,6 +89,51 @@ public class BoykaDbContext : DbContext, IBoykaDbContext
             entity.Property(e => e.MaximumDailyLoss).HasPrecision(18, 8);
             entity.HasOne(e => e.TradingAccount)
                   .WithMany(a => a.RiskProfiles)
+                  .HasForeignKey(e => e.TradingAccountId)
+                  .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        // MT5Command
+        modelBuilder.Entity<MT5Command>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Symbol).IsRequired().HasMaxLength(20);
+            entity.Property(e => e.Volume).HasPrecision(18, 8);
+            entity.Property(e => e.EntryPrice).HasPrecision(18, 8);
+            entity.Property(e => e.StopLoss).HasPrecision(18, 8);
+            entity.Property(e => e.TakeProfit).HasPrecision(18, 8);
+            entity.Property(e => e.LastError).HasMaxLength(1000);
+            entity.HasOne(e => e.TradeOrder)
+                  .WithMany()
+                  .HasForeignKey(e => e.TradeOrderId)
+                  .OnDelete(DeleteBehavior.Restrict);
+            entity.HasOne(e => e.TradingAccount)
+                  .WithMany(a => a.MT5Commands)
+                  .HasForeignKey(e => e.TradingAccountId)
+                  .OnDelete(DeleteBehavior.Restrict);
+        });
+
+        // EaRegistration
+        modelBuilder.Entity<EaRegistration>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.ApiKeyHash).IsRequired().HasMaxLength(128);
+            entity.Property(e => e.EaVersion).HasMaxLength(50);
+            entity.HasOne(e => e.TradingAccount)
+                  .WithMany(a => a.EaRegistrations)
+                  .HasForeignKey(e => e.TradingAccountId)
+                  .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        // SymbolMapping
+        modelBuilder.Entity<SymbolMapping>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.CanonicalSymbol).IsRequired().HasMaxLength(20);
+            entity.Property(e => e.BrokerSymbol).IsRequired().HasMaxLength(20);
+            entity.HasIndex(e => new { e.TradingAccountId, e.CanonicalSymbol }).IsUnique();
+            entity.HasOne(e => e.TradingAccount)
+                  .WithMany(a => a.SymbolMappings)
                   .HasForeignKey(e => e.TradingAccountId)
                   .OnDelete(DeleteBehavior.Cascade);
         });

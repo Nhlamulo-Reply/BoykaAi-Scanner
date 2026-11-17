@@ -22,6 +22,110 @@ namespace Boyka.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Boyka.Domain.Entities.EaRegistration", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ApiKeyHash")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("EaVersion")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastHeartbeatAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("RevokedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("TradingAccountId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TradingAccountId");
+
+                    b.ToTable("EaRegistrations");
+                });
+
+            modelBuilder.Entity("Boyka.Domain.Entities.MT5Command", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("AcknowledgedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("AttemptedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Direction")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("EntryPrice")
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
+
+                    b.Property<DateTime>("ExpiresAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastError")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<int>("RetryCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("StopLoss")
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
+
+                    b.Property<string>("Symbol")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<decimal>("TakeProfit")
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
+
+                    b.Property<Guid>("TradeOrderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("TradingAccountId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Volume")
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TradeOrderId");
+
+                    b.HasIndex("TradingAccountId");
+
+                    b.ToTable("MT5Commands");
+                });
+
             modelBuilder.Entity("Boyka.Domain.Entities.RiskProfile", b =>
                 {
                     b.Property<Guid>("Id")
@@ -54,6 +158,33 @@ namespace Boyka.Infrastructure.Migrations
                     b.HasIndex("TradingAccountId");
 
                     b.ToTable("RiskProfiles");
+                });
+
+            modelBuilder.Entity("Boyka.Domain.Entities.SymbolMapping", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("BrokerSymbol")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("CanonicalSymbol")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<Guid>("TradingAccountId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TradingAccountId", "CanonicalSymbol")
+                        .IsUnique();
+
+                    b.ToTable("SymbolMappings");
                 });
 
             modelBuilder.Entity("Boyka.Domain.Entities.TradeExecution", b =>
@@ -108,6 +239,9 @@ namespace Boyka.Infrastructure.Migrations
                     b.Property<decimal>("EntryPrice")
                         .HasPrecision(18, 8)
                         .HasColumnType("decimal(18,8)");
+
+                    b.Property<Guid?>("MT5CommandId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -202,6 +336,11 @@ namespace Boyka.Infrastructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<bool>("AutoTradingEnabled")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
                     b.Property<string>("BrokerName")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -237,6 +376,7 @@ namespace Boyka.Infrastructure.Migrations
                             AccountCurrency = "USD",
                             AccountName = "Demo Account",
                             AccountNumber = "0001",
+                            AutoTradingEnabled = false,
                             BrokerName = "Mock Broker",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             ExecutionMode = "Demo",
@@ -246,10 +386,51 @@ namespace Boyka.Infrastructure.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Boyka.Domain.Entities.EaRegistration", b =>
+                {
+                    b.HasOne("Boyka.Domain.Entities.TradingAccount", "TradingAccount")
+                        .WithMany("EaRegistrations")
+                        .HasForeignKey("TradingAccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("TradingAccount");
+                });
+
+            modelBuilder.Entity("Boyka.Domain.Entities.MT5Command", b =>
+                {
+                    b.HasOne("Boyka.Domain.Entities.TradeOrder", "TradeOrder")
+                        .WithMany()
+                        .HasForeignKey("TradeOrderId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Boyka.Domain.Entities.TradingAccount", "TradingAccount")
+                        .WithMany("MT5Commands")
+                        .HasForeignKey("TradingAccountId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("TradeOrder");
+
+                    b.Navigation("TradingAccount");
+                });
+
             modelBuilder.Entity("Boyka.Domain.Entities.RiskProfile", b =>
                 {
                     b.HasOne("Boyka.Domain.Entities.TradingAccount", "TradingAccount")
                         .WithMany("RiskProfiles")
+                        .HasForeignKey("TradingAccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("TradingAccount");
+                });
+
+            modelBuilder.Entity("Boyka.Domain.Entities.SymbolMapping", b =>
+                {
+                    b.HasOne("Boyka.Domain.Entities.TradingAccount", "TradingAccount")
+                        .WithMany("SymbolMappings")
                         .HasForeignKey("TradingAccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -298,7 +479,13 @@ namespace Boyka.Infrastructure.Migrations
 
             modelBuilder.Entity("Boyka.Domain.Entities.TradingAccount", b =>
                 {
+                    b.Navigation("EaRegistrations");
+
+                    b.Navigation("MT5Commands");
+
                     b.Navigation("RiskProfiles");
+
+                    b.Navigation("SymbolMappings");
 
                     b.Navigation("TradeOrders");
                 });

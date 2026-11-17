@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Boyka.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e8b26ec37e5a83e75de0671ced23c1e5a9a01139")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7ec4887525ceaecd532383297eb8fee93de8d16d")]
 [assembly: System.Reflection.AssemblyProductAttribute("Boyka.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Boyka.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

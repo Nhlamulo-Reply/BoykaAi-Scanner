@@ -5,5 +5,7 @@ public enum TradeExecutionStatus
     Pending = 1,
     Success = 2,
     Failed = 3,
-    Rejected = 4
+    Rejected = 4,
+    PartiallyFilled = 5,
+    Unknown = 6
 }
