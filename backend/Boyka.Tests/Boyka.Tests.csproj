@@ -21,6 +21,7 @@
     <ProjectReference Include="..\Boyka.Domain\Boyka.Domain.csproj" />
     <ProjectReference Include="..\Boyka.Application\Boyka.Application.csproj" />
     <ProjectReference Include="..\Boyka.Infrastructure\Boyka.Infrastructure.csproj" />
+    <ProjectReference Include="..\Boyka.API\Boyka.API.csproj" />
   </ItemGroup>
 
   <ItemGroup>

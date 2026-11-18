@@ -72,7 +72,22 @@ public class MT5CommandService : IMT5CommandService
         if (command.TradingAccountId != tradingAccountId)
             throw new UnauthorizedAccessException("MT5 command does not belong to this trading account.");
 
-        var (executionStatus, orderStatus) = MapStatus(request.Status);
+        // The authenticated EA identity is authoritative. If the client also
+        // sends an account ID, it must agree with that identity.
+        if (request.AccountId != Guid.Empty && request.AccountId != tradingAccountId)
+            throw new UnauthorizedAccessException("Acknowledgement account does not match the authenticated EA account.");
+
+        // HTTP delivery is at-least-once. A repeated acknowledgement after a
+        // lost response must not create another execution record or mutate the
+        // completed order state.
+        if (command.Status == MT5CommandStatus.Acknowledged)
+            return;
+
+        if (command.Status != MT5CommandStatus.Delivered)
+            throw new InvalidOperationException("MT5 command has not been delivered or is no longer actionable.");
+
+        if (!TryMapStatus(request.Status, out var executionStatus, out var orderStatus))
+            throw new InvalidOperationException("Unsupported MT5 execution status.");
 
         var execution = new TradeExecution
         {
@@ -93,6 +108,8 @@ public class MT5CommandService : IMT5CommandService
 
         command.Status = MT5CommandStatus.Acknowledged;
         command.AcknowledgedAt = DateTime.UtcNow;
+        command.AttemptedAt = request.ExecutedAtUtc ?? DateTime.UtcNow;
+        command.LastError = request.ErrorMessage;
 
         await _context.SaveChangesAsync();
     }
@@ -117,15 +134,32 @@ public class MT5CommandService : IMT5CommandService
             await _context.SaveChangesAsync();
     }
 
-    private static (TradeExecutionStatus executionStatus, TradeOrderStatus orderStatus) MapStatus(string status)
-        => status.ToUpperInvariant() switch
+    private static bool TryMapStatus(
+        string? status,
+        out TradeExecutionStatus executionStatus,
+        out TradeOrderStatus orderStatus)
+    {
+        var mapped = status?.ToUpperInvariant() switch
         {
             "FILLED"   => (TradeExecutionStatus.Success,         TradeOrderStatus.Executed),
             "PARTIAL"  => (TradeExecutionStatus.PartiallyFilled, TradeOrderStatus.Executed),
             "REJECTED" => (TradeExecutionStatus.Rejected,        TradeOrderStatus.Rejected),
             "FAILED"   => (TradeExecutionStatus.Failed,          TradeOrderStatus.Rejected),
-            _          => (TradeExecutionStatus.Unknown,         TradeOrderStatus.Rejected)
+            "UNKNOWN"  => (TradeExecutionStatus.Unknown,         TradeOrderStatus.Rejected),
+            _          => ((TradeExecutionStatus?)null,           (TradeOrderStatus?)null)
         };
+
+        if (mapped.Item1 is null || mapped.Item2 is null)
+        {
+            executionStatus = default;
+            orderStatus = default;
+            return false;
+        }
+
+        executionStatus = mapped.Item1.Value;
+        orderStatus = mapped.Item2.Value;
+        return true;
+    }
 
     private static MT5CommandResponse MapToResponse(MT5Command command) => new()
     {

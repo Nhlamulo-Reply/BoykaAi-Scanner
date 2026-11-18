@@ -2,6 +2,8 @@ namespace Boyka.Application.DTOs.MT5;
 
 public class MT5AccountSnapshotRequest
 {
+    public long AccountLogin { get; set; }
+    public string BrokerCompany { get; set; } = string.Empty;
     public decimal Balance { get; set; }
     public decimal Equity { get; set; }
     public decimal Margin { get; set; }

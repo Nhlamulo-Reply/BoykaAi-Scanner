@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Boyka.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7ec4887525ceaecd532383297eb8fee93de8d16d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bbc9211178df5d930b8af3eb4932da021c696d54")]
 [assembly: System.Reflection.AssemblyProductAttribute("Boyka.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Boyka.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

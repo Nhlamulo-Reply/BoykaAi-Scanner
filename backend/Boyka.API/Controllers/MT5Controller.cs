@@ -2,6 +2,7 @@ using Boyka.Application.DTOs.MT5;
 using Boyka.Application.Interfaces;
 using Boyka.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Boyka.API.Controllers;
 
@@ -56,15 +57,38 @@ public class MT5Controller : ControllerBase
 
     // POST /api/mt5/account-snapshots — requires EA key
     [HttpPost("account-snapshots")]
-    public ActionResult AccountSnapshot([FromBody] MT5AccountSnapshotRequest request)
+    public async Task<ActionResult> AccountSnapshot([FromBody] MT5AccountSnapshotRequest request)
     {
         var registration = GetRegistration();
 
+        if (request.AccountLogin <= 0
+            || string.IsNullOrWhiteSpace(request.BrokerCompany)
+            || string.IsNullOrWhiteSpace(request.ServerName)
+            || string.IsNullOrWhiteSpace(request.Currency))
+        {
+            throw new InvalidOperationException("Account snapshot identity fields are required.");
+        }
+
+        var account = await _context.TradingAccounts
+            .FirstOrDefaultAsync(a => a.Id == registration.TradingAccountId);
+
+        if (account is null)
+            throw new KeyNotFoundException($"Trading account {registration.TradingAccountId} not found.");
+
+        if (!long.TryParse(account.AccountNumber, out var expectedLogin)
+            || request.AccountLogin != expectedLogin)
+        {
+            throw new UnauthorizedAccessException("Account snapshot login does not match the authenticated EA account.");
+        }
+
         _logger.LogInformation(
-            "Account snapshot received for account {AccountId}: Balance={Balance} {Currency}, Equity={Equity}",
+            "Account snapshot received for account {AccountId}: Login={AccountLogin}, Company={BrokerCompany}, Server={ServerName}, Currency={Currency}, Balance={Balance}, Equity={Equity}",
             registration.TradingAccountId,
-            request.Balance,
+            request.AccountLogin,
+            request.BrokerCompany,
+            request.ServerName,
             request.Currency,
+            request.Balance,
             request.Equity);
 
         return Ok();

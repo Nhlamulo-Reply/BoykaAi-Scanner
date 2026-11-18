@@ -11,3 +11,6 @@ C:\Users\OEM\Documents\BoykaAI\backend\Boyka.Domain\obj\Debug\net10.0\Boyka.Doma
 C:\Users\OEM\Documents\BoykaAI\backend\Boyka.Domain\obj\Debug\net10.0\ref\Boyka.Domain.dll
 C:\Users\OEM\Documents\BoykaAI\backend\Boyka.Domain\obj\Debug\net10.0\Boyka.Do.B5F5C63E.Up2Date
 c:\Users\OEM\Documents\BoykaAI\backend\Boyka.Domain\obj\Debug\net10.0\Boyka.Domain.sourcelink.json
+C:\Users\OEM\Documents\BoykaAI\backend\.snapshot-verification\Debug\net10.0\Boyka.Domain.deps.json
+C:\Users\OEM\Documents\BoykaAI\backend\.snapshot-verification\Debug\net10.0\Boyka.Domain.dll
+C:\Users\OEM\Documents\BoykaAI\backend\.snapshot-verification\Debug\net10.0\Boyka.Domain.pdb

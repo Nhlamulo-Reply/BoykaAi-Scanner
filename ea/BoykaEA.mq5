@@ -16,7 +16,7 @@
 //|  MT5 TERMINAL SETUP (required before running):                  |
 //|    1. Open MT5 → Tools → Options → Expert Advisors.             |
 //|    2. Enable "Allow WebRequest for listed URLs".                 |
-//|    3. Add your BackendBaseUrl (e.g. https://localhost:5001) to  |
+//|    3. Add your BackendBaseUrl (e.g. https://localhost:7161) to  |
 //|       the URL allow-list.                                        |
 //|    Without this the EA cannot communicate with the backend.      |
 //+------------------------------------------------------------------+
@@ -27,21 +27,14 @@
 #property strict
 
 //--- Input parameters
-input string BackendBaseUrl         = "https://localhost:5001"; // Backend API base URL
+input string BackendBaseUrl         = "https://localhost:7161"; // Backend API base URL
 input string ApiKey                 = "";                       // EA API key (from POST /api/mt5/registrations)
 input int    PollingIntervalSeconds = 5;                        // How often (seconds) to poll for commands
-input bool   ExecutionEnabled       = true;                     // Safety switch: false = log commands but do not place orders
+input bool   ExecutionEnabled       = false;                    // Safety switch: false = log commands but do not place orders
 input string EaVersion              = "1.0.0";                 // EA version reported to backend in heartbeats
 input int    MagicNumber            = 20261117;                 // Magic number stamped on every EA order
 input int    SlippagePoints         = 10;                       // Maximum allowed slippage in points
 
-//--- Retcode constants (not always pre-defined in older MT5 builds)
-#define TRADE_RETCODE_DONE          10009
-#define TRADE_RETCODE_DONE_PARTIAL  10010
-#define TRADE_RETCODE_REJECT        10013
-#define TRADE_RETCODE_CANCEL        10014
-#define TRADE_RETCODE_PLACED        10008
-#define TRADE_RETCODE_INVALID       10015
 #define HTTP_TIMEOUT_MS             5000
 
 //+------------------------------------------------------------------+
@@ -133,19 +126,25 @@ void SendAccountSnapshot()
     double balance    = AccountInfoDouble(ACCOUNT_BALANCE);
     double equity     = AccountInfoDouble(ACCOUNT_EQUITY);
     double margin     = AccountInfoDouble(ACCOUNT_MARGIN);
-    double freeMargin = AccountInfoDouble(ACCOUNT_FREEMARGIN);
+    double freeMargin = AccountInfoDouble(ACCOUNT_MARGIN_FREE);
+    long   accountLogin = AccountInfoInteger(ACCOUNT_LOGIN);
+    string company      = AccountInfoString(ACCOUNT_COMPANY);
     string currency   = AccountInfoString(ACCOUNT_CURRENCY);
     string server     = AccountInfoString(ACCOUNT_SERVER);
     long   leverage   = AccountInfoInteger(ACCOUNT_LEVERAGE);
 
     string json = StringFormat(
-        "{\"balance\":%.8f,"
+        "{\"accountLogin\":%I64d,"
+        "\"brokerCompany\":\"%s\","
+        "\"balance\":%.8f,"
         "\"equity\":%.8f,"
         "\"margin\":%.8f,"
         "\"freeMargin\":%.8f,"
         "\"currency\":\"%s\","
         "\"serverName\":\"%s\","
         "\"leverage\":%d}",
+        accountLogin,
+        EscapeJson(company),
         balance,
         equity,
         margin,
@@ -392,10 +391,12 @@ void SendPositionSnapshot()
 
     for(int i = 0; i < total; i++)
     {
-        if(!PositionSelectByIndex(i))
+        // PositionGetTicket selects the indexed position for subsequent
+        // PositionGet* calls and is supported by current MT5 builds.
+        ulong ticket = PositionGetTicket(i);
+        if(ticket == 0)
             continue;
 
-        long   ticket      = PositionGetInteger(POSITION_TICKET);
         string posSym      = PositionGetString(POSITION_SYMBOL);
         long   posType     = PositionGetInteger(POSITION_TYPE);
         double posVol      = PositionGetDouble(POSITION_VOLUME);
@@ -410,7 +411,7 @@ void SendPositionSnapshot()
         string openedAt = StructToIso8601(openTime);
 
         string posJson = StringFormat(
-            "{\"brokerTicket\":%d,"
+            "{\"brokerTicket\":%I64u,"
             "\"symbol\":\"%s\","
             "\"direction\":\"%s\","
             "\"volume\":%.8f,"

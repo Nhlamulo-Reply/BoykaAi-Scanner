@@ -106,13 +106,6 @@ namespace Boyka.Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.UpdateData(
-                table: "TradingAccounts",
-                keyColumn: "Id",
-                keyValue: new Guid("00000000-0000-0000-0000-000000000001"),
-                columns: new string[0],
-                values: new object[0]);
-
             migrationBuilder.CreateIndex(
                 name: "IX_EaRegistrations_TradingAccountId",
                 table: "EaRegistrations",

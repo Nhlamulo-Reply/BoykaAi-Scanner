@@ -6,6 +6,9 @@ and reports results back through the REST API.
 
 > **Demo accounts only.** The EA refuses to run on live accounts.
 
+For the full API contract, provisioning flow, command lifecycle, and demo
+verification procedure, see [EA_BACKEND_INTEGRATION.md](EA_BACKEND_INTEGRATION.md).
+
 ---
 
 ## Prerequisites
@@ -30,7 +33,7 @@ MT5 blocks all outbound HTTP by default.
 3. Check **"Allow WebRequest for listed URLs"**.
 4. Click **Add** and enter your backend base URL, for example:
    ```
-   https://localhost:5001
+   https://localhost:7161
    ```
 5. Click **OK**.
 
@@ -47,8 +50,8 @@ cd c:\Users\OEM\Documents\BoykaAI\backend
 dotnet run --project Boyka.API
 ```
 
-The API will be available at `https://localhost:5001`.  
-Swagger UI: `https://localhost:5001/swagger`
+The API will be available at `https://localhost:7161`.  
+Swagger UI: `https://localhost:7161/swagger`
 
 ---
 
@@ -57,7 +60,7 @@ Swagger UI: `https://localhost:5001/swagger`
 The EA needs a unique key so the backend can identify which trading account  
 it belongs to.
 
-1. Open Swagger UI at `https://localhost:5001/swagger`.
+1. Open Swagger UI at `https://localhost:7161/swagger`.
 2. Find **POST /api/mt5/registrations**.
 3. Send a request body like:
 
@@ -107,7 +110,7 @@ A smiley face icon in the chart's top-right corner confirms the EA is running.
 
 | Parameter | Default | Description |
 |---|---|---|
-| `BackendBaseUrl` | `https://localhost:5001` | Base URL of the Boyka AI backend. Must match the URL you added to the MT5 WebRequest allow-list. |
+| `BackendBaseUrl` | `https://localhost:7161` | Base URL of the Boyka AI backend. Must match the URL you added to the MT5 WebRequest allow-list. |
 | `ApiKey` | _(empty)_ | The raw API key returned by `POST /api/mt5/registrations`. **Required.** The EA will not start without it. |
 | `PollingIntervalSeconds` | `5` | How often (in seconds) the EA polls for new commands, sends heartbeats, and updates snapshots. |
 | `ExecutionEnabled` | `true` | Safety switch. Set to `false` to have the EA receive and log commands without placing any broker orders. Useful for testing connectivity. |
@@ -188,8 +191,7 @@ You attached the EA to a live account. Use a demo account.
 ### "No commands appearing"
 
 - Confirm the backend is running and reachable from your machine.
-- Use Swagger to call `POST /api/trades/execute` with  
-  `executionMode: "MT5"` or `QueueForMT5` to create a queued command,  
+- Use Swagger to call `POST /api/trades/queue-mt5` to create a queued command,  
   then wait for the next polling tick.
 - Check that the `TradingAccountId` in your EA registration matches  
   the account that has commands queued.

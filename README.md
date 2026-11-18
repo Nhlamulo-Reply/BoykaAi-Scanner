@@ -82,6 +82,7 @@ The port is printed in the console output when the application starts (e.g., `No
 | POST | `/api/signals` | Create a new trade signal |
 | GET | `/api/trades` | List all trade orders |
 | POST | `/api/trades/execute` | Execute a trade order (mock execution) |
+| POST | `/api/trades/queue-mt5` | Validate and queue a trade command for the account's MT5 EA |
 | GET | `/api/trades/{id}` | Get a specific trade order by ID |
 | GET | `/api/trades/{id}/execution` | Get the execution record(s) for a trade |
 | GET | `/api/risk/{accountId}` | Get the risk profile for an account |
@@ -207,4 +208,5 @@ The port is printed in the console output when the application starts (e.g., `No
 - **~10% simulated failures:** `MockTradeExecutionService` randomly rejects roughly 1 in 10 orders.
 - **No authentication or authorization:** all endpoints are open.
 - **No real-time price feeds:** entry price is taken directly from the request.
-- **Phase 1 only:** mobile app integration, real MT5 connectivity, and advanced analytics are planned for future phases.
+- **MT5 execution is demo-only:** the EA is an external MT5 component and must be configured with an EA API key. See [ea/README.md](ea/README.md).
+- **No production trading:** live-account execution and advanced analytics are not implemented.

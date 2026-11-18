@@ -36,4 +36,16 @@ public class TradesController : ControllerBase
         var result = await _service.ExecuteTradeAsync(request);
         return Accepted(result);
     }
+
+    /// <summary>
+    /// Validates an order and queues it for the authenticated EA assigned to
+    /// the requested trading account. This does not place a broker order;
+    /// the EA collects the command on its next poll.
+    /// </summary>
+    [HttpPost("queue-mt5")]
+    public async Task<ActionResult<TradeOrderResponse>> QueueForMt5([FromBody] ExecuteTradeRequest request)
+    {
+        var result = await _service.QueueForMT5Async(request);
+        return Accepted(result);
+    }
 }
